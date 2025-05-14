@@ -6,7 +6,7 @@ While (spatially) analyzing key variables—such as county-level abortion rates 
 After experimenting with different kriging methods and libraries—including Poisson kriging for rate-based data and block kriging to account for areal units—I found that the GSTools library provided the most reliable and flexible results. 
 One of its key advantages was the seamless integration of the Matérn-Yadrenko variogram model, which accounts for the complex (heterogenous) spatial structure of the data and non-stationarity. 
 
-Moreover, GSTools allowed for the inclusion of external drift variables (hence the name "External Drift Kriging", EDK), such as the distance to the nearest abortion provider—a variable that not shares a similar (negativley-correlated) spatial structure with abortion rates (i.e., greater distances are generally associated with lower abortion rates). 
+Moreover, GSTools allowed for the inclusion of external drift variables (hence the name "External Drift Kriging", EDK), such as the distance to the nearest abortion provider—a variable that shares a similar (negativley-correlated) spatial structure with abortion rates (i.e., greater distances are generally associated with lower abortion rates). 
 The library also supported conditioning, which helped preserve local variance, especially in sparsely sampled areas. Without this, kriging estimates tend to regress toward the mean in regions with distant neighbors.
 
 While collapsing county-level data to geometric centroids for kriging—and subsequently treating the interpolated point data as areal data for further analysis—is certainly an experimental approach, cross-validation demonstrated its robustness, particularly for neighboring counties. 

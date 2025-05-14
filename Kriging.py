@@ -87,7 +87,7 @@ def geokrig(df, variable, iterations, model, drift1, drift2=None):
     bin_center, vario = gs.vario_estimate(
                         (lat, lon), 
                         int_data, 
-                        estimator = "cressie", # 
+                        estimator = "cressie", 
                         latlon=True, 
                         mesh_type="unstructured", # unstructured mesh type to account for irregular shapes of counties
                         normalizer=normalizer)             
@@ -96,8 +96,8 @@ def geokrig(df, variable, iterations, model, drift1, drift2=None):
     print("maximal bin distance:", max(bin_center))
     
     # fit the model (Yadrenko)
-    model = model(dim = 2, latlon=True) # covariance model, with 2 dimen
-    model.fit_variogram(bin_center, vario, nugget = False, loss = "cauchy")  # nugget = False funktioniert nicht mit Stable // cauchy ändert fast nichts 
+    model = model(dim = 2, latlon=True) # covariance model with 2 dimensions (latlong = True, means that we're using a degree scale, therefore: Matern Yadrenko model)
+    model.fit_variogram(bin_center, vario, nugget = False, loss = "cauchy")  # cauchy loss function
     
     # plotting:
     ax = model.plot("vario_yadrenko", x_max=max(bin_center)) 

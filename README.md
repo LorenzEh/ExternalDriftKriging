@@ -15,7 +15,6 @@ Due to computational limitations, this process was repeated 100 times, yielding 
 
 These results suggest that EDK is particularly effective at interpolating values near observed data points, though its performance diminishes in more isolated regions.
 
-Markdown
 
 ## **Description & Functionality**
 

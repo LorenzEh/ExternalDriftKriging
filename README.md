@@ -14,3 +14,59 @@ To validate the EDK results, I performed repeated random cross-validations: afte
 Due to computational limitations, this process was repeated 100 times, yielding a mean correlation of 0.73 (ranging from 0.43 in the far field to 0.88 for missing data with close neighbours). 
 
 These results suggest that EDK is particularly effective at interpolating values near observed data points, though its performance diminishes in more isolated regions.
+
+Markdown
+
+## **Description & Functionality**
+
+This function takes a GeoPandas DataFrame containing spatial units and a target variable with missing values. It fits a variogram model to capture the spatial autocorrelation of the target variable. By leveraging the information from one or two external drift variables (auxiliary spatial covariates), it performs kriging to estimate the missing values. To account for the inherent uncertainty in spatial predictions, especially in areas with sparse data, the function generates multiple conditional random field realizations. These simulations honor the observed data and the spatial structure, providing a range of plausible spatial distributions.
+
+#### *Key functionalities include:*
+
+1. **Variogram Modeling:** Fitting a user-specified covariance model (e.g., Matérn) to the empirical spatial structure of the target variable.
+2. **External Drift Kriging:** Utilizing one or two external drift variables to improve the accuracy of spatial interpolation.
+3. **Conditional Simulations:** Generating multiple realizations of the spatial field, conditioned on the observed data and drift variables, to model prediction uncertainty.
+4. **GeoPandas Integration:** Accepting and returning GeoDataFrames, ensuring seamless integration with spatial data workflows.
+5. **Log-Normal Transformation:** Applying a log-normal transformation to the target variable to handle potential skewness.
+
+## **`geokrig` Function**
+
+### *What can be done with it:*
+
+- Impute missing values in a spatial variable using external drift kriging.
+- Incorporate auxiliary spatial covariates to enhance prediction accuracy.
+- Generate multiple conditional simulations to assess and visualize spatial prediction uncertainty.
+- Preserve the spatial variability of the target variable in the simulated fields.
+- Output a Pandas DataFrame containing multiple conditional simulation realizations for each spatial unit.
+
+### *Parameters:*
+
+- `df`: `GeoDataFrame`
+    - A GeoPandas DataFrame containing polygon geometries, the target variable, and one or two drift variables.
+- `variable`: `str`
+    - Name of the column in `df` to be interpolated. This column must contain missing values.
+- `iterations`: `int`
+    - The number of conditional simulations (random fields) to generate.
+- `model`: `gstools.CovModel`
+    - A GSTools covariance model class (e.g., `gs.Matern`) to be used for variogram fitting.
+- `drift1`: `str`
+    - Name of the primary external drift variable column in `df`.
+- `drift2`: `str`, optional
+    - Name of a secondary external drift variable column in `df`. Defaults to `None`.
+
+### *Returns:*
+
+- `fields_df`: `pandas.DataFrame`
+    - A DataFrame where each row corresponds to a spatial unit, and each column represents one of the conditional simulation realizations.
+
+### *Example Usage:*
+
+```python
+
+# Perform external drift kriging with 1000 conditional simulations
+fields_df = geokrig(df=gdf,
+                    variable="abortion_rate",
+                    iterations=1000,
+                    model=matern_model,
+                    drift1="distance_to_clinic",
+                    drift2="poverty_rate")

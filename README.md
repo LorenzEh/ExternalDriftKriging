@@ -1,7 +1,7 @@
 # External Drift Kriging ![Python](https://img.shields.io/badge/Python-3.8-blue.svg)
 
 During my master's thesis, I began exploring various techniques for missing data estimation. As I delved deeper into geostatistics, I came across variography and kriging interpolation. 
-While (spatially) analyzing key variables—such as county-level abortion rates and distances to abortion clinics across the contiguous United States—I realized that incorporating spatial information into the imputation process might improve accuracy.
+While analyzing spatially autocorrelated key variables—such as county-level abortion rates and distances to abortion clinics across the contiguous United States—I realized that incorporating spatial information into the imputation process might improve accuracy.
 
 After experimenting with different kriging methods and libraries—including Poisson kriging for rate-based data and block kriging to account for areal units—I found that the GSTools library provided the most reliable and flexible results. 
 One of its key advantages was the seamless integration of the Matérn-Yadrenko variogram model, which accounts for the complex (heterogenous) spatial structure of the data and non-stationarity. 
